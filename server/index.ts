@@ -27,6 +27,13 @@ app.get('/categories', (_, res) => {
   return res.json(categories);
 });
 
+app.get('/categories/:id', (req, res) => {
+  const { id } = req.params;
+  const found = posts.filter(({ category }: Post) => category === id);
+  const categoryPosts = [...found, ...found, ...found];
+  return res.json(categoryPosts);
+});
+
 app.listen(port, () =>
   console.log(`DB is running on http://localhost:${port}!`)
 );
