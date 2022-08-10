@@ -1,22 +1,20 @@
 import Link from 'next/link';
+import { Post } from '../../shared/types';
 import { Card, Figure, Title, Excerpt } from './PostCardStyle';
 
-export const PostCard = () => {
+type PostCardProps = {
+  post: Post;
+};
+
+export const PostCard = ({ post }: PostCardProps) => {
   return (
-    <Link href="/post/example" passHref>
+    <Link href={`/post/${post.id}`} passHref>
       <Card>
         <Figure>
-          <img src="/images/image2.jpg" alt="Post photo" />
+          <img src={post.image} alt={post.title} />
         </Figure>
-        <Title>Post title!</Title>
-        <Excerpt>
-          <p>
-            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ea,
-            praesentium nam libero hic necessitatibus eius quasi optio iure
-            earum ab? Doloremque eum architecto maxime obcaecati, porro nihil
-            cupiditate illum in?
-          </p>
-        </Excerpt>
+        <Title>{post.title}</Title>
+        <Excerpt>{post.lead}</Excerpt>
       </Card>
     </Link>
   );
