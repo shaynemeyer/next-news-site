@@ -3,11 +3,11 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "serve": "ts-node -O '{\"module\": \"commonjs\"}' ./server/index.ts",
-    "dev": "concurrently --kill-others \"npm run serve\" \"next dev\""
+    "serve": "ts-node -O '{\"module\": \"commonjs\"}' ./server/index.ts"
   },
   "dependencies": {
     "@types/react-redux": "^7.1.24",
