@@ -10,15 +10,18 @@
     "dev": "concurrently --kill-others \"npm run serve\" \"next dev\""
   },
   "dependencies": {
+    "@types/react-redux": "^7.1.24",
     "@types/styled-components": "^5.1.25",
     "body-parser": "^1.20.0",
     "concurrently": "^7.3.0",
     "cors": "^2.8.5",
     "express": "^4.18.1",
     "next": "12.2.4",
+    "next-redux-wrapper": "^7.0.5",
     "node-fetch": "^3.2.10",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "react-redux": "^8.0.2",
     "styled-components": "^5.3.5",
     "ts-node": "^10.9.1"
   },
