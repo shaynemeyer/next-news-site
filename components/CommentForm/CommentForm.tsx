@@ -1,7 +1,9 @@
-import React, { useState, FormEvent } from 'react';
-import { EntityId } from '../../shared/types';
-import { Form } from './style';
-import { submitComment } from '../../api/comments/submit';
+import React, { useState, FormEvent } from "react";
+import { useDispatch } from "react-redux";
+import { EntityId } from "../../shared/types";
+import { submitComment } from "../../api/comments/submit";
+import { UPDATE_COMMENTS_ACTION } from "../../store/comments";
+import { Form } from "./style";
 
 type CommentFormProps = {
   post: EntityId;
@@ -9,19 +11,22 @@ type CommentFormProps = {
 
 export const CommentForm: React.FC<CommentFormProps> = ({ post }) => {
   const [loading, setLoading] = useState<boolean>(false);
-  const [value, setValue] = useState<string>('');
-  const [name, setName] = useState<string>('');
+  const [value, setValue] = useState<string>("");
+  const [name, setName] = useState<string>("");
+  const dispatch = useDispatch();
 
   async function submit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setLoading(true);
 
-    const { status } = await submitComment(post, name, value);
+    const response = await submitComment(post, name, value);
+    const comments = await response.json();
     setLoading(false);
+    setValue("");
+    setName("");
 
-    if (status === 201) {
-      location.hash = 'comments';
-      location.reload();
+    if (response.status === 200) {
+      dispatch({ type: UPDATE_COMMENTS_ACTION, comments });
     }
   }
 

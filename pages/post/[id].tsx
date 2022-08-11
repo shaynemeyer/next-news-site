@@ -1,31 +1,41 @@
-import { GetServerSideProps } from 'next';
-import { useRouter } from 'next/router';
-import { fetchPost } from '../../api/post';
-import { fetchComments } from '../../api/comments/fetch';
-import { Post as PostType, Comment } from '../../shared/types';
-import { Loader } from '../../components/Loader';
+import React from "react";
+import { NextPage } from "next";
+import { useSelector } from "react-redux";
+import { Loader } from "../../components/Loader";
+import { PostBody } from "../../components/Post/PostBody";
+import { Comments } from "../../components/Comments";
 
-import { PostBody } from '../../components/Post/PostBody';
-import { Comments } from '../../components/Comments';
+import { fetchPost } from "../../api/post";
+import { fetchComments } from "../../api/comments/fetch";
+import { State, store } from "../../store";
+import { PostState, UPDATE_POST_ACTION } from "../../store/post";
+import { CommentsState, UPDATE_COMMENTS_ACTION } from "../../store/comments";
 
-type PostProps = {
-  post: PostType;
-  comments: Comment[];
-};
+export const getServerSideProps = store.getServerSideProps(
+  (store) =>
+    async ({ params }) => {
+      if (typeof params?.id !== "string") {
+        throw new Error("Unexpected id");
+      }
 
-export const getServerSideProps: GetServerSideProps<PostProps> = async ({
-  params,
-}) => {
-  if (typeof params?.id !== 'string') throw new Error('Unexpected id');
-  const post = await fetchPost(params.id);
-  const comments = await fetchComments(params.id);
-  return { props: { post, comments } };
-};
+      const comments = await fetchComments(params.id);
+      const post = await fetchPost(params.id);
 
-const Post = ({ post, comments }: PostProps) => {
-  const router = useRouter();
+      store.dispatch({ type: UPDATE_POST_ACTION, post });
+      store.dispatch({ type: UPDATE_COMMENTS_ACTION, comments });
 
-  if (router.isFallback) return <Loader />;
+      return null;
+    }
+);
+
+const Post: NextPage = () => {
+  const post = useSelector<State, PostState>(({ post }) => post);
+  const comments = useSelector<State, CommentsState>(
+    ({ comments }) => comments
+  );
+
+  if (!post) return <Loader />;
+
   return (
     <>
       <PostBody post={post} />
