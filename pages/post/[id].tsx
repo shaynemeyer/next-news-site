@@ -5,8 +5,7 @@ import { Loader } from '../../components/Loader';
 import { PostBody } from '../../components/Post/PostBody';
 import { Comments } from '../../components/Comments';
 
-import { fetchPost } from '../../api/post';
-import { fetchComments } from '../../api/comments/fetch';
+import { fetchPost, fetchComments } from '../../request';
 import { State, store } from '../../store';
 import { PostState, UPDATE_POST_ACTION } from '../../store/post';
 import { CommentsState, UPDATE_COMMENTS_ACTION } from '../../store/comments';
@@ -14,9 +13,7 @@ import { CommentsState, UPDATE_COMMENTS_ACTION } from '../../store/comments';
 export const getServerSideProps = store.getServerSideProps(
   (store) =>
     async ({ params }) => {
-      if (typeof params?.id !== 'string') {
-        throw new Error('Unexpected id');
-      }
+      if (typeof params?.id !== 'string') throw new Error('Unexpected id');
 
       const comments = await fetchComments(params.id);
       const post = await fetchPost(params.id);
@@ -35,7 +32,6 @@ const Post: NextPage = () => {
   );
 
   if (!post) return <Loader />;
-
   return (
     <>
       <PostBody post={post} />

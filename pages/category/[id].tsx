@@ -1,26 +1,21 @@
-import { GetStaticProps } from 'next';
+import { GetServerSideProps } from 'next';
 import { useRouter } from 'next/router';
 import { Post } from '../../shared/types';
-import { fetchPosts } from '../../api/category';
+import { fetchCategory } from '../../request';
 import { Section } from '../../components/Section';
 import { Loader } from '../../components/Loader';
-import { categoryPaths as paths } from '../../shared/staticPaths';
 
 type CategoryProps = {
   posts: Post[];
 };
 
-export const getStaticProps: GetStaticProps<CategoryProps> = async ({
+export const getServerSideProps: GetServerSideProps<CategoryProps> = async ({
   params,
 }) => {
   if (typeof params?.id !== 'string') throw new Error('Unexpected id');
-  const posts = await fetchPosts(params.id);
+  const posts = await fetchCategory(params?.id);
   return { props: { posts } };
 };
-
-export async function getStaticPaths() {
-  return { paths, fallback: true };
-}
 
 const Category = ({ posts }: CategoryProps) => {
   const router = useRouter();
