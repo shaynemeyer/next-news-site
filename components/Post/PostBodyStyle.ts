@@ -12,21 +12,11 @@ export const Title = styled.h2`
 `;
 
 export const Figure = styled.figure`
-  padding: 35% 0 0;
   margin: 0 0 30px;
   max-width: 100%;
   position: relative;
   overflow: hidden;
   border-radius: 6px;
-
-  img {
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    top: 0;
-    object-fit: cover;
-    object-position: center;
-  }
 
   @media (max-width: 800px) {
     margin-bottom: 20px;

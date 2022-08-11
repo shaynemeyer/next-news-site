@@ -17,19 +17,11 @@ export const Card = styled.a`
 `;
 
 export const Figure = styled.figure`
-  padding: 56% 0 0;
   margin: 0;
   max-width: 100%;
   position: relative;
   overflow: hidden;
   border-radius: 6px 6px 0 0;
-
-  img {
-    max-width: 100%;
-    position: absolute;
-    top: 0;
-    left: 0;
-  }
 `;
 
 export const Title = styled.h3`

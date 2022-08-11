@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import Link from 'next/link';
 import { Post } from '../../shared/types';
 import { Breadcrumbs } from '../Breadcrumbs';
@@ -13,7 +14,16 @@ export const PostBody = ({ post }: PostBodyProps) => {
       <Breadcrumbs post={post} />
       <Title>{post.title}</Title>
       <Figure>
-        <img src={post.image} alt={post.title} />
+        <Image
+          src={post.image}
+          alt={post.title}
+          loading="lazy"
+          layout="responsive"
+          objectFit="cover"
+          objectPosition="center"
+          width={960}
+          height={340}
+        />
       </Figure>
 
       <Content dangerouslySetInnerHTML={{ __html: post.content }} />
